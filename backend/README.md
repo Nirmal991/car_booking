@@ -115,3 +115,88 @@ Content-Type: application/json
 - Email must be unique in the system
 - Authentication token is valid for future API requests
 - The returned token should be used in the Authorization header for protected routes
+
+---
+
+### GET /user/profile
+
+#### Description
+Retrieves profile information for the authenticated user. Requires a valid `token` cookie set by login or register.
+
+#### Request
+
+**Method:** `GET`
+
+**Endpoint:** `/user/profile`
+
+**Headers:**
+```
+Cookie: token=<jwt_token_here>
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com"
+  },
+  "message": "User profile fetched successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | Profile retrieved successfully |
+| 401 | Unauthorized | Missing or invalid token |
+| 500 | Internal Server Error | Server-side error during fetch |
+
+---
+
+### GET /user/logout
+
+#### Description
+Logs out the current user by clearing their stored token in the database and removing the cookie.
+
+#### Request
+
+**Method:** `GET`
+
+**Endpoint:** `/user/logout`
+
+**Headers:**
+```
+Cookie: token=<jwt_token_here>
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": {},
+  "message": "User logged Out"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | User logged out and cookie cleared |
+| 401 | Unauthorized | No authenticated user or invalid token |
+| 500 | Internal Server Error | Server-side error during logout |
+
+

@@ -1,6 +1,6 @@
 import path from "node:path";
 import process from "node:process";
-
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import e, { json, static as serve } from "express";
 import cors from "cors";
@@ -13,6 +13,7 @@ import routes from "./routes";
 const api = e();
 api.disable("etag");
 api.use(cors());
+api.use(cookieParser());
 api.use(
   helmet({
     contentSecurityPolicy: false,
