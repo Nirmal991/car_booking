@@ -163,6 +163,65 @@ Cookie: token=<jwt_token_here>
 
 ---
 
+### POST /user/login
+
+#### Description
+Authenticates a user with email and password, returning a token and user data upon success.
+
+#### Request
+
+**Method:** `POST`
+
+**Endpoint:** `/user/login`
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "email": "string (required, valid email)",
+  "password": "string (required, minimum 6 characters)"
+}
+```
+
+#### Example Request
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": {
+    "token": "jwt_token_here",
+    "user": { /* user object */ }
+  },
+  "message": "Login successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | User authenticated successfully |
+| 400 | Bad Request | Validation failed or invalid credentials |
+| 401 | Unauthorized | Wrong password or missing fields |
+| 404 | Not Found | User not found |
+| 500 | Internal Server Error | Server-side error during login |
+
+---
+
 ### GET /user/logout
 
 #### Description
