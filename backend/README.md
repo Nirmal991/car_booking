@@ -258,4 +258,186 @@ Cookie: token=<jwt_token_here>
 | 401 | Unauthorized | No authenticated user or invalid token |
 | 500 | Internal Server Error | Server-side error during logout |
 
+---
+
+## Captain Endpoints
+
+### POST /captain/register
+
+#### Description
+Registers a new captain and returns an authentication token.
+
+#### Request
+
+**Method:** `POST`
+
+**Endpoint:** `/captain/register`
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "fullname": { "firstname": "string (required, min 3)", "lastname": "string (optional)" },
+  "email": "string (required, valid email)",
+  "password": "string (required, min 6)",
+  "vehicle": {
+    "color": "string (required)",
+    "plate": "string (required)",
+    "capacity": "number (required, >=1)",
+    "vehicleType": "string (required, one of car, motorcycle, auto)"
+  }
+}
+```
+
+#### Response
+
+**Success Response (201 Created):**
+```json
+{
+  "success": true,
+  "statusCode": 201,
+  "data": {
+    "token": "jwt_token_here",
+    "captain": { /* captain object */ }
+  },
+  "message": "Captain created Successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 201 | Created | Captain registered successfully |
+| 400 | Bad Request | Validation failed or email already exists |
+| 500 | Internal Server Error | Server-side error during registration |
+
+
+### POST /captain/login
+
+#### Description
+Authenticates a captain and returns a token and profile data.
+
+#### Request
+
+**Method:** `POST`
+
+**Endpoint:** `/captain/login`
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "email": "string (required, valid email)",
+  "password": "string (required, min 6)"
+}
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": {
+    "token": "jwt_token_here",
+    "captain": { /* captain object */ }
+  },
+  "message": "Login successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | Captain authenticated successfully |
+| 400 | Bad Request | Validation failed or invalid credentials |
+| 500 | Internal Server Error | Server-side error during login |
+
+
+### GET /captain/profile
+
+#### Description
+Fetches the profile of the authenticated captain. Requires valid cookie token.
+
+#### Request
+
+**Method:** `GET`
+
+**Endpoint:** `/captain/profile`
+
+**Headers:**
+```
+Cookie: token=<jwt_token_here>
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": {
+    "captain": { /* captain object */ }
+  },
+  "message": "Captain profile fetched successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | Profile retrieved successfully |
+| 401 | Unauthorized | Token missing/invalid |
+| 500 | Internal Server Error | Server-side error during fetch |
+
+
+### GET /captain/logout
+
+#### Description
+Logs out the captain by clearing the token cookie and removing server-side token.
+
+#### Request
+
+**Method:** `GET`
+
+**Endpoint:** `/captain/logout`
+
+**Headers:**
+```
+Cookie: token=<jwt_token_here>
+```
+
+#### Response
+
+**Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": null,
+  "message": "Logout successfully"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description | Scenario |
+|-------------|-------------|----------|
+| 200 | OK | Captain logged out successfully |
+| 401 | Unauthorized | No authenticated captain or invalid token |
+| 500 | Internal Server Error | Server-side error during logout |
+
 
