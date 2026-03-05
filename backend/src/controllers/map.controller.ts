@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import { ApiError, ApiResponse, asyncHandler } from "../lib";
 import { AuthRequest } from "../middlewares";
-import { getServiceCoordinates } from "../config/map.config";
+import { getAddressCoordinates } from "../config/map.config";
 import { getDistance, getAutoCompleteSuggestion } from "../config/map.config";
 
 export const getCoordinates = asyncHandler(async (req: AuthRequest, res) => {
@@ -13,7 +13,7 @@ export const getCoordinates = asyncHandler(async (req: AuthRequest, res) => {
     const { address } = req.query;
 
     try {
-        const coordinates = await getServiceCoordinates(address as string);
+        const coordinates = await getAddressCoordinates(address as string);
         return res
         .status(200)
         .json(new ApiResponse(200, coordinates,"Corrdinates found"));

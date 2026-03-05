@@ -5,9 +5,9 @@ import "dotenv/config";
 import e, { json, static as serve } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import mongoose, { ConnectOptions } from "mongoose";
+import http from 'http';
 
-import { HOST, PORT, connectToMongo } from "./lib";
+import { HOST, PORT, connectToMongo, initializeSocket } from "./lib";
 import routes from "./routes";
 
 const api = e();
@@ -25,7 +25,10 @@ api.use(serve(path.join(process.cwd(), "public")));
 
 api.use(routes);
 
+const server = http.createServer(api);
+
 connectToMongo().then(() => {
+  initializeSocket(server);
   api.listen(PORT, HOST, () => console.log(`API listing on port:- ${PORT}`));
 });
 

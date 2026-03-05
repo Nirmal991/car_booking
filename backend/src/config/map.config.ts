@@ -11,7 +11,7 @@ type AutoCompleteResponse = {
   predictions: PlacePrediction[];
 };
 
-export const getServiceCoordinates = async (address: string) => {
+export const getAddressCoordinates = async (address: string) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 

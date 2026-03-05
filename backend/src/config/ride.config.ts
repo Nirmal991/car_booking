@@ -1,8 +1,9 @@
 import { ApiError } from "../lib";
+import { VehicleType } from "../types/vehicle";
 import { getDistance } from "./map.config";
 import crypto from 'crypto';
 
-export const getFair = async(pickup : string, destination: string) => {
+export const getFair = async(pickup : string, destination: string): Promise<Record<VehicleType, number>> => {
     if (!pickup || !destination) {
         throw new ApiError(400,'Pickup and destination are required');
     }
